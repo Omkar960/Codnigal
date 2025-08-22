@@ -1,0 +1,7 @@
+base = int(input("Enter a base number"))
+exponent = int(input("Enter an exponent"))
+result = 1
+for i in range(exponent):
+    result *= base
+print(result)
+    
