@@ -7,6 +7,6 @@ for i in range(n):
     for j in range(i+1):
         
     
-        print(number,end="")
-        number+= 1
-    print()
+        print(number,end=" ")
+        number = number + 1
+    print( )
