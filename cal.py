@@ -1,4 +1,3 @@
 import calendar
-from datetime import datetime
-current_year = datetime.now().year
-print(calendar.calendar(current_year))
+months = list(calendar.month_name)
+print(months)
