@@ -4,7 +4,7 @@ try:
 
     result = num1/num2
     print(result)
-    print(result1)
+    print(result)
 
 except ZeroDivisionError:
     print("You can't divide a number by zero")
