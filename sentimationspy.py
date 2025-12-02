@@ -64,5 +64,5 @@ while True:
     conversationhistroy.append((userinput,polarity,sentiment_type))
     print(f"{color}{emoji} {userinput} (Polarity: {polarity:.2f}, {sentiment_type}){Style.RESET_ALL}")
 
-   
+    
    
