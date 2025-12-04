@@ -46,6 +46,31 @@ def draw():
         turtle.end_fill()
     else:
         choice= input(f"{Fore.RED} Could you rephrase: ")
+def weather():
+    place = input(f"{Fore.GREEN}Where to: ")
+    if place.lower() == "bali":
+        print("It's approx 25 degrees on average and it's humid ")
+    elif place.lower() == "maldives":
+        print("It's approx 27 degrees on average and it's humid")
+    elif place.lower() == "phoket":
+        print("It's approx 27 degrees on average and it's humid")
+    elif place.lower() == "new york":
+        print("In the winter it's approx -7 degrees and quite chilly")
+
+    elif place.lower() == "tokyo":
+         print("In the winter it's approx 10 degrees and quite chilly")
+      
+    elif place.lower() == "paris":
+         print("In the winter it's approx 6 degrees and quite chilly")
+
+    elif place.lower() == "swiss alps":
+        print("It's approx -5 degrees on average and it's humid")
+
+    elif place.lower() == "himalayas":
+        print("In the winter approx -40 degrees and it's chilly")
+
+    elif place.lower == "rocky mountains":
+         print("In the winter it's approx -11 degrees and quite chilly")
 
 def price():
     place = input(f"{Fore.GREEN}Where to: ")
@@ -98,6 +123,7 @@ def showhelp():
     print(f"{Fore.GREEN} \n Type exit or bye to end. \n")
     print(f"{Fore.GREEN}\n Type draw or paint for me to draw something of your choice: ")
     print(f"{Fore.GREEN}\n If you want me to find the price of your holiday,Type price or cost: ")
+    print(f"{Fore.GREEN}\n If you want me to find the weather for your desired place Type weather or temperature: ")
 def chat():
     print(f"{Fore.CYAN} Hello, I am a Travelbot!")
 
@@ -126,6 +152,8 @@ def chat():
             draw()
         elif "price" in userinput or "cost" in userinput:
             price()
+        elif "weather" in userinput or "temperature" in userinput:
+            weather()
         else:
             print(f"{Fore.RED}Travelbot: Could you rephrase: ")
             
