@@ -1,5 +1,6 @@
 import re,random
 from colorama import Fore, init
+import turtle
 
 init(autoreset=True)
 
@@ -16,12 +17,89 @@ jokes = [
 ]
 def telljoke():
     print(f"{Fore.YELLOW}Travelbot: {random.choice(jokes)}")
+
+def draw():
+    color = input(f"{Fore.GREEN}What's your favourite colour: ")
+    turtle.fillcolor(color)
+    turtle.begin_fill()
+    choice = input(f"{Fore.GREEN}What do you want me to draw(circle,square or hexagon): ")
+    if choice.lower() == "circle":
+        turtle.circle(100)
+        turtle.hideturtle()
+        turtle.end_fill()
+    elif choice.lower() == "square":
+        color = input(f"{Fore.GREEN}What's your favourite colour: ")
+        turtle.fillcolor(color)
+        turtle.begin_fill()
+        for i in range(4):
+            turtle.forward(150)
+            turtle.right(90)
+            turtle.hideturtle()
+            turtle.end_fill()
+            
+    elif choice.lower() == "hexagon":
+        color = input(f"{Fore.GREEN}What's your favourite colour: ")
+        turtle.fillcolor(color)
+        turtle.begin_fill()
+        for i in range(6):
+            turtle.forward(150)
+            turtle.right(60)
+            turtle.hideturtle()
+            turtle.end_fill()
+    else:
+        choice= input(f"{Fore.RED} Could you rephrase: ")
+
+def price():
+    place = input(f"{Fore.GREEN}Where to: ")
+    days = int(input(f'{Fore.GREEN}How many day: '))
+    nights = int(input(f"{Fore.GREEN}How many nights: "))
+    hotel = int(input(f"{Fore.GREEN}How many stars is your hotel(1-5): "))
+    daysprice = 0
+    nightsprice = 0
+
+    if place.capitalize() == "Tokyo" or place == "Paris" or place == "New York":
+        ticketsprice = 2,000
+    elif place.capitalize() == "Swiss Alps" or place == "Rocky Mountains" or place ==  "Himalayas":
+        ticketsprice = 1,750
+    elif place.capitalize() == "Bali" or place == "Maldives" or place == "Phoket":
+        ticketsprice = 2,000
+    else:
+        place = input(f"{Fore.RED}Sorry,could you rephrase: ")
+    if days == 1 or days == 2 or days == 3:
+        daysprice = days * (100*hotel)
+    elif days > 3 and days <= 7:
+        daysprice = days * (90*hotel)
+    elif days > 7 and days <= 15:
+        daysprice = days * (80*hotel)
+    elif days > 15:
+        daysprice = days * (70*hotel)
+    else:
+        days = input(f"{Fore.RED}Could you rephrase: ")
+    
+
+
+    if nights == 1 or nights == 2 or nights == 3:
+        nightsprice = days * (100*hotel)
+    elif nights > 3 and nights <= 7:
+        nightsprice = nights * (90*hotel)
+    elif nights > 7 and nights <= 15:
+        nightsprice = nights * (80*hotel)
+    elif nights > 15:
+        nightsprice = nights * (70*hotel)
+    else:
+        nights = input(f"{Fore.RED}Could you rephrase: ")
+    
+    ovrprice = daysprice + nightsprice
+    print(f"{Fore.GREEN}Travelbot: Your total price is: £{ovrprice}")
+
 def showhelp():
     print(f"{Fore.MAGENTA} \n I can")
     print(f"{Fore.GREEN} \n Suggest travel spots (say recommendation)")
     print(f"{Fore.GREEN} \n Offer packing tips(say packing)")
     print(f"{Fore.GREEN} \n Tell a joke (say joke)")
     print(f"{Fore.GREEN} \n Type exit or bye to end. \n")
+    print(f"{Fore.GREEN}\n Type draw or paint for me to draw something of your choice: ")
+    print(f"{Fore.GREEN}\n If you want me to find the price of your holiday,Type price or cost: ")
 def chat():
     print(f"{Fore.CYAN} Hello, I am a Travelbot!")
 
@@ -46,6 +124,10 @@ def chat():
         elif "exit" in userinput or "bye" in userinput:
             print(f"{Fore.CYAN} Travelbot: Safe travels! Goodbye!")
             break
+        elif "draw" in userinput or "paint" in userinput:
+            draw()
+        elif "price" in userinput or "cost" in userinput:
+            price()
         else:
             print(f"{Fore.RED}Travelbot: Could you rephrase: ")
             
