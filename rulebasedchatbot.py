@@ -21,31 +21,29 @@ def telljoke():
 def draw():
     color = input(f"{Fore.GREEN}What's your favourite colour: ")
     turtle.fillcolor(color)
-    turtle.begin_fill()
     choice = input(f"{Fore.GREEN}What do you want me to draw(circle,square or hexagon): ")
     if choice.lower() == "circle":
+        turtle.begin_fill()
         turtle.circle(100)
         turtle.hideturtle()
         turtle.end_fill()
     elif choice.lower() == "square":
-        color = input(f"{Fore.GREEN}What's your favourite colour: ")
         turtle.fillcolor(color)
         turtle.begin_fill()
         for i in range(4):
             turtle.forward(150)
             turtle.right(90)
             turtle.hideturtle()
-            turtle.end_fill()
+        turtle.end_fill()
             
     elif choice.lower() == "hexagon":
-        color = input(f"{Fore.GREEN}What's your favourite colour: ")
         turtle.fillcolor(color)
         turtle.begin_fill()
         for i in range(6):
             turtle.forward(150)
             turtle.right(60)
             turtle.hideturtle()
-            turtle.end_fill()
+        turtle.end_fill()
     else:
         choice= input(f"{Fore.RED} Could you rephrase: ")
 
