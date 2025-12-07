@@ -2,17 +2,28 @@ from colorama import init, Fore, Style
 import random
 
 init(autoreset=True)
-ailist = ["rock","paper","scissors"]
+
 
 def game():
     aitool = " "
     win = 0
     playerinput = input("Select between rock, paper or scissors: ")
     aitool = aitool + playerinput
-    aichoice = random.choice(ailist)
+    aitool = ""
+    aitool  = aitool + playerinput
 
-    print(aichoice)
-    print(playerinput)
+    if aitool == "rock":
+        aiiq= ["rock","paper","paper","scissors"]
+        aichoice = random.choice(aiiq)
+    elif aitool == "paper":
+        aiiq = ["rock","paper","scissors","scissors"]
+        aichoice = random.choice(aiiq)
+    else:
+        aiiq = ["rock","rock","paper","scissors"]
+        aichoice = random.choice(aiiq)
+
+    print("AI chose: ",aichoice)
+    print("You chose:",playerinput)
     if playerinput == aichoice:
         print("It's a tie !")
       
@@ -50,8 +61,7 @@ def game():
     
 
 game()
-
-
+    
 
 
 
