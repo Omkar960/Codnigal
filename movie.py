@@ -8,22 +8,24 @@ from textblob import TextBlob
 
 init(autoreset= True)
 import pandas as pd
-# ...existing code...
+
+
+
 
 def load_data(file_path="imdb_top_1000.csv"):
     try:
         df = pd.read_csv(file_path)  
-        df["combined features"] = df["Genre"].fillna('') + ' ' + df["Overview"].fillna(' ')
+        df['combined features'] = df['Genre'].fillna('') + ' ' + df["Overview"].fillna(' ')
         return df
     except FileNotFoundError:
-        print(f"{Fore.RED}Error: File {file_path} not found. Check the path.")
+        print(f'{Fore.RED}Error: File {file_path} not found. Check the path.')
         sys.exit()
 
 movies_df = load_data()
 
 
 tfidf = TfidfVectorizer(stop_words = "english")
-tfidf_matrix = tfidf.fit_transform(movies_df['combine features'])
+tfidf_matrix = tfidf.fit_transform(movies_df['combined features'])
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
 def list_genres(df):
@@ -61,7 +63,7 @@ def display_recommendations(recs,name):
 def processing_animation():
     for _ in range(3):
         print(Fore.YELLOW + ", ", end= "", flush=True)
-        time.sleep(0,5)
+        time.sleep(0.5)
 def handle_ai(name):
     print(Fore.BLUE + "\n 🔍 Let's find the perfect movie for you! \n")
 
@@ -90,7 +92,7 @@ def handle_ai(name):
 
     print(f"\n {Fore.GREEN}Your mood is {mood_desc} (Polarity:{polarity:.2f}).\n")
     while True:
-        rating_input = input(f"{Fore.YELLOW} Enter minimum IMDB rating(7, 6 - 9.3)or 'skip': ").strip()
+        rating_input = input(f"{Fore.YELLOW} Enter minimum IMDB rating(7,6 - 9.3)or 'skip': ").strip()
         if rating_input.lower() == "skip":
             rating = None
             break
