@@ -5,9 +5,22 @@ from colorama import init, Fore
 import time
 import sys
 from textblob import TextBlob
+import random
 
-init(autoreset= True)
-import pandas as pd
+init(autoreset=True)
+
+def randomizer(df):
+    if df.empty:
+        return "No movies available."
+    random_row = df.sample(n=1).iloc[0]
+    title = random_row['Series_Title']
+    rating = random_row['IMDB_Rating']
+    genre = random_row['Genre']
+    return f"🎥 Random Movie: {title} (Rating: {rating}, Genre: {genre})"
+
+
+
+
 
 
 
@@ -134,6 +147,12 @@ def main():
 
     print(f"\n{Fore.GREEN}Great to meet you {name}\n")
     handle_ai(name)
+
+    print("Another movie choice is:")
+    print(randomizer(movies_df))
+
+    
+   
 
 if __name__ == "__main__":
     main()
