@@ -7,7 +7,7 @@ init(autoreset=True)
 def game():
     aitool = " "
     win = 0
-    playerinput = input("Select between rock, paper or scissors: ")
+    playerinput = input(f"{Fore.GREEN}Select between rock 🪨, paper 📃 or scissors ✂️: ")
     aitool = aitool + playerinput
     aitool = ""
     aitool  = aitool + playerinput
@@ -22,21 +22,21 @@ def game():
         aiiq = ["rock","rock","paper","scissors"]
         aichoice = random.choice(aiiq)
 
-    print("AI chose: ",aichoice)
-    print("You chose:",playerinput)
+    print(f"{Fore.YELLOW}AI chose: ",aichoice)
+    print(f"{Fore.YELLOW}You chose:",playerinput)
     if playerinput == aichoice:
         print("It's a tie !")
       
      
     elif playerinput.lower() == "rock" and aichoice == "scissors":
-        print("You win!")
+        print(f"{Fore.GREEN}You win!")
         win = win + 1
         
     elif playerinput.lower() == "rock" and aichoice == "paper":
         print("You lose")
         
     elif playerinput.lower() == "scissors" and aichoice == "paper":
-        print("You win!")
+        print(f"{Fore.GREEN}You win!")
         win = win+ 1
         
     elif playerinput.lower() == "scissors" and aichoice == "rock":
@@ -46,18 +46,18 @@ def game():
         print("You lose!")
         
     elif playerinput.lower() == "paper" and aichoice == "rock":
-        print("You win")
+        print(f"{Fore.GREEN}You win!")
         win = win + 1
        
         
     else:
-        playerinput = input("Could you rephrase")
-    choice = input("Do you want to play again: ")
+        playerinput = input(f"{Fore.RED}Could you rephrase: ")
+    choice = input(f"{Fore.YELLOW}Do you want to play again: ")
     if choice.lower() == "yes":
         for i in range(1):
             game()
     else:
-        print("No problem")
+        print(f"{Fore.YELLOW}No problem")
     
 
 game()
