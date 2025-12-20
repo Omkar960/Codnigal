@@ -31,7 +31,7 @@ def game():
     if playerinput == aichoice:
         print("It's a tie !")
         result = t
-        attempt = attempt + 1
+        attempt += 1
 
       
      
@@ -43,7 +43,7 @@ def game():
     elif playerinput.lower() == "rock" and aichoice == "paper":
         print(a)
         result = a 
-        attempt = attempt + 1
+        attempt += 1
         
     elif playerinput.lower() == "scissors" and aichoice == "paper":
         print(f"{Fore.GREEN}You win!")
@@ -55,12 +55,12 @@ def game():
     elif playerinput.lower() == "scissors" and aichoice == "rock":
         print(a)
         result = a 
-        attempt = attempt + 1
+        attempt += 1
         
     elif playerinput.lower() == "paper" and aichoice == "scissors":
         print(a)
         result = a 
-        attempt = attempt + 1
+        attempt += 1
         
     elif playerinput.lower() == "paper" and aichoice == "rock":
         print(f"{Fore.GREEN}You win!")
@@ -96,42 +96,45 @@ def game():
         if playerinput == aichoice:
             print("It's a tie !")
             result = t
-            attempt = attempt + 1
+            attempt += 1
 
         
         
         elif playerinput.lower() == "rock" and aichoice == "scissors":
             print(f"{Fore.GREEN}You win!")
             win = win + 1
+            attempt += 1
             result = w
+            print("You won in",attempt,"attempts")
             
         elif playerinput.lower() == "rock" and aichoice == "paper":
             print(a)
             result = a 
-            attempt = attempt + 1
+            
+            attempt += 1
             
         elif playerinput.lower() == "scissors" and aichoice == "paper":
             print(f"{Fore.GREEN}You win!")
             win = win+ 1
             result = w
-            attempt = attempt + 1
+            attempt += 1
             print("You won in",attempt,"attempts")
             
         elif playerinput.lower() == "scissors" and aichoice == "rock":
             print(a)
             result = a 
-            attempt = attempt + 1
+            
             
         elif playerinput.lower() == "paper" and aichoice == "scissors":
             print(a)
             result = a 
-            attempt = attempt + 1
+            attempt += 1
             
         elif playerinput.lower() == "paper" and aichoice == "rock":
             print(f"{Fore.GREEN}You win!")
             win = win + 1
             result = w
-            attempt = attempt + 1
+            attempt += 1
             print("You won in",attempt,"attempts")
         else:
             ans = input(f"{Fore.GREEN}Do you want to play again(yes/no): ")
