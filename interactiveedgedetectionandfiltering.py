@@ -38,10 +38,11 @@ def interactive_edge_detection(image_path):
     print("7. Undo")
     print("8. Clear History")
     print("9. Check History")
+    history = ""
    
     while True:
         choice = input("Enter your choice (1-9)")
-        history = ""
+        
 
         if choice == "1":
             sobelx = cv2.Sobel(gray_image,cv2.CV_64F,1,0,ksize = 3)
@@ -79,21 +80,23 @@ def interactive_edge_detection(image_path):
             display_image("Gaussian Smoothed Image",result)
             plt.imshow(image)
             cv2.imwrite("edited_image.jpg",result)
-            history += "Gaussian Smoothing"
+            history +="Gaussian Smoothing"
         elif choice == "5":
             print("Adjust Kernel Size for Median filtering(must be odd, default:5)")
             ksize = int(input("Enter Kernel size for Median filtering (odd number)"))
             result = cv2.medianBlur(image,ksize)
             display_image("Median Filtered Image",result)
-            history += "Median Filtering"
+            history =  history + "Median Filtering"
             cv2.imwrite("edited_image.jpg",result)
         elif choice == "6":
             print("Existing...")
+            history += "Exit"
             break
 
         elif choice == "7":
             plt.close('all')
             display_image("Original Image",gray_image)
+            history += "Original Image"
         
         elif choice == "8":
             history = ""
