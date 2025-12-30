@@ -26,45 +26,63 @@ def apply_colorfilter(image,filter_type):
     elif filter_type == "increase_red":
 
         filtered_image[:,:,2] = cv2.add(filtered_image[:,:,2],50)
+        cv2.imwrite('edited.jpg',image)
 
     elif filter_type == "decrease_green":
 
         filtered_image[:,:,0] = cv2.subtract(filtered_image[:,:,1],50)
+        cv2.imwrite('edited1.jpg',image)
 
     elif filter_type == "increase_green":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,1],50)
+        cv2.imwrite('edited2.jpg',image)
+
 
     elif filter_type == "decrease_blue":
 
         filtered_image[:,:,0] = cv2.subtract(filtered_image[:,:,0],50)
+        cv2.imwrite('edited3.jpg',image)
+
 
     elif filter_type == "increase_blue":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,0],50)
+        cv2.imwrite('edited4.jpg',image)
+
 
     elif filter_type == "decrease_red":
 
         filtered_image[:,:,0] = cv2.subtract(filtered_image[:,:,2],50)
+        cv2.imwrite('edited5.jpg',image)
+
 
     elif filter_type == "increase_red":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,2],50)
+        cv2.imwrite('edited6.jpg',image)
+
 
     elif filter_type == "increase_red_increase_blue":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,2],50)
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,0],50)
+        cv2.imwrite('edited7.jpg',image)
+
 
     elif filter_type == "increase_blue_increase_green":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,1],50)
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,0],50)
+        cv2.imwrite('edited8.jpg',image)
+
 
     elif filter_type == "increase_red_increase_green":
 
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,2],50)
         filtered_image[:,:,0] = cv2.add(filtered_image[:,:,1],50)
+        cv2.imwrite('edited8.jpg',image)
+
     
 
 
