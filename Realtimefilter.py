@@ -28,6 +28,23 @@ def apply_filter(image,ftype):
         edges = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,9,9)
         color = cv2.bilateralFilter(image,9,300,300)
         img = cv2.bitwise_and(color,color,mask=edges)
+    elif ftype == "increase_red":
+        img[:,:,2] = cv2.add(img[:,:,2],50)
+    elif ftype == "increase_green":
+        img[:,:,1] = cv2.add(img[:,:,1],50)
+    elif ftype == "increase_blue":
+        img[:,:,0] = cv2.add(img[:,:,0],50)
+    elif ftype == "decrease_blue":
+        img[:,:,0] = cv2.subtract(img[:,:,0],50)
+    elif ftype == "decrease_red":
+        img[:,:,2] = cv2.subtract(img[:,:,2],50)
+    elif ftype == "increase_green":
+        img[:,:,1] = cv2.subtract(img[:,:,1],50)
+    
+    
+    
+    
+    
     return img
 
 def main():
@@ -36,7 +53,7 @@ def main():
         print("Cannot open camera")
         return
     ftype = "original"
-    print("Keys: r = Red, g = Green, b = Blue, s = Sobel, c = Canny, t = Cartoon, q = Quit")
+    print("Keys: r = Red tint, g = Green tint, b = Blue tint, s = Sobel, c = Canny, t = Cartoon, 5 = Increase Red, 4 = Increase Green, 6 = Increase Blue, 7 = Decrease Red, 8 = Decrease Green, 9 = Decrease Blue, q = Quit")
     while True:
         ret,frame = cap.read()
         if not ret:
@@ -57,6 +74,19 @@ def main():
             ftype = "canny"
         elif key == ord('t'):
             ftype = "cartoon"
+        elif key == ord('5'):
+            ftype = "increase_red"
+        elif key == ord('4'):
+            ftype = "increase_green"
+        elif key == ord('6'):
+            ftype = "increase_blue"
+        elif key == ord('7'):
+            ftype = "decrease_red"
+        elif key == ord('8'):
+            ftype = "decrease_green"
+        elif key == ord('9'):
+            ftype = "decrease_blue"
+        
         elif key == ord('q'):
             break
     cap.release()
