@@ -7,8 +7,8 @@ import time
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(max_num_hands = 1, min_detection_confidence = 0.7)
 mp_drawimg = mp.solutions.drawing_utils
-SCROLL_SPEED = 100
-SCROLL_DELAY = 1
+SCROLL_SPEED = 150
+SCROLL_DELAY = 0.01
 CAM_WIDTH, CAM_HEIGHT = 640,480
 def detect_gesture(landmarks, handedness):
     fingers =[]
@@ -19,10 +19,10 @@ def detect_gesture(landmarks, handedness):
             fingers.append(1)
 
     thumb_tip = landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
-    thumb_ip = landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
+    thumb_ip = landmarks.landmark[mp_hands.HandLandmark.THUMB_IP]
     if(handedness == "Right" and thumb_tip.x > thumb_ip.x) or (handedness == 'Left' and thumb_tip.x < thumb_ip.x):
         fingers.append(1)
-    return "scroll_up" if sum(fingers) == 5 else "scroll_down" if len(fingers) == 0 else "none"
+    return "scroll_up" if sum(fingers) == 5 else "scroll_down" if len(fingers) == 0  else "none"
 
 cap = cv2.VideoCapture(0)
 cap.set(3,CAM_WIDTH)
@@ -51,11 +51,11 @@ while cap.isOpened:
                 if gesture == "scroll_up": pyautogui.scroll(SCROLL_SPEED)
                 elif gesture == "scroll_down": pyautogui.scroll(-SCROLL_SPEED)
                 last_scroll = time.time()
-    fps = 1/(time.time()-p_time) if (time.time()-p_time) > 0 else 0
+    fps = 1/(time.time()-p_time)  if (time.time()-p_time) > 0 else 0
     p_time = time.time()
     cv2.putText(img,f"FPS: {int(fps)} | Hand: {handedness} | Gesture: {gesture}",(10,30),
                 cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,0,0),2)
     cv2.imshow("Gesture Control",cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
-    if cv2.waitKey(0) and 0xFF == ord('q'): break
+    if cv2.waitKey(1) & 0xFF == ord('q'): break
 cap.release()
 cv2.destroyAllWindows()
