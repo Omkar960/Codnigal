@@ -23,9 +23,11 @@ if not cap.isOpened():
     exit()
 last_action_time = 0
 debounce_time = 1
-def apply_filter(frame, filter_type):
+def apply_filter(frame, filter_type,):
     if filter_type == "GRAYSCALE":
-        return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        return grayscale_frame
+    
     elif filter_type == "SEPIA":
         sepia_filter = np.array([[0.272,0.534,0.131],
         [0.349,0.686,0.168],
@@ -88,9 +90,18 @@ while True:
     filtered_img = apply_filter(img,filters[current_filter])
 
     if filters[current_filter] == 'GRAYSCALE':
-        cv2.imshow("Gesture-Controlled Photo App",cv2.cvtColor(filtered_img,cv2.COLOR_GRAY2BGR))
+        display_frame = cv2.cvtColor(filtered_img,cv2.COLOR_GRAY2BGR)
     else:
-        cv2.imshow("Gesture-Controlled Photo App",filtered_img)
+        display_frame = filtered_img
+    
+
+    if filters[current_filter] is not None:
+        cv2.putText(display_frame, filters[current_filter], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    else:
+        cv2.putText(display_frame,filters[current_filter],(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2)
+    
+    cv2.imshow("Gesture-Controlled Photo App", display_frame)
+
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
