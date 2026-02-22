@@ -1,12 +1,15 @@
 import requests
 import urllib3
+import html
 import random
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 url1 = "https://uselessfacts.jsph.pl/random.json?language=en"
-url2 = "https://opentdb.com/api.php?amount=1&category=18&type=boolean"
-url3 = "https://history.muffinlabs.com/date"
-url4 = "https://opentdb.com/api.php?amount=1&category=17&type=boolean"
+url2 = "https://uselessfacts.jsph.pl/category/technology.json?language=en"
+url3 = "https://uselessfacts.jsph.pl/category/history.json?language=en"
+url4 = "https://uselessfacts.jsph.pl/category/science.json?language=en"
 url5 = "https://balldontlie.io/api/v1/players?search=lebron"
+#Extra link.
+
 def general_facts():
     response = requests.get(url1,verify=False)
     if response.status_code == 200:
@@ -27,9 +30,9 @@ def history_facts():
     response = requests.get(url3,verify=False)
     if response.status_code == 200:
         data = response.json()
-        events = data['data']['Events']
-        random_event = random.choice(events)
-        print(f"Did you know in {random_event['year']}: {random_event['text']}")
+        raw_text = data['results'][0]['question']
+        clean_text = html.unescape(raw_text)
+        print(f"Clean: {clean_text}")
     
     else:
         print("Failed to fetch fact")
@@ -38,12 +41,9 @@ def science_facts():
     response = requests.get(url4, verify=False, timeout=5)
     if response.status_code == 200:
         data = response.json()
-            
         raw_fact = data['results'][0]['question']
-            
         import html
         clean_fact = html.unescape(raw_fact)
-            
         print(f" Science: {clean_fact}")
     else:
         print("Failed to fetch fact (Server error)")
