@@ -61,14 +61,20 @@ if __name__ == "__main__":
         print(Fore.YELLOW + " \n Choose your summarization style:" )
         print("1. Standard Summary (Quick and Concise)")
         print("2. Enhanced Summary (More detailed and refined)")
-        style_choice = input("Enter 1. or 2. ").strip()
+        print("3. A mix of both which is neutral")
+        style_choice = input("Enter 1. or 2. or 3. ").strip()
         if style_choice == "2":
-            min_length = 80
-            max_length = 200
-        else:
+            min_length = 90
+            max_length = 250
+            print(Fore.BLUE + " Using Enhanced Summary")
+        elif style_choice == "1":
             min_length = 50
-            max_length = 150
+            max_length = 125
             print(Fore.BLUE + "Using standard summarization settings...")
+        else:
+            min_length = 70
+            max_length = 177
+            print(Fore.BLUE + 'Using a mix of both choices...')
             
         summary = summarize_text(usertext,min_length,max_length,model_name=modelchoice)
         if summary:
