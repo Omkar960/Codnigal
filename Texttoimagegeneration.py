@@ -5,29 +5,48 @@ from Config import HF_API_KEY
 
 MODELS = [
     "ByteDance/SDXL-Lightning",
-    "stabilityai/stable-diffusion-x1-base-1.0",
+    "stabilityai/stable-diffusion-xl-base-1.0",
     "stabilityai/sdxl-turbo",
-    "runawayml/stable-diffusion-v1.5"
+    "runwayml/stable-diffusion-v1.5"
 ]
 
 cilent = InferenceClient(api_key=HF_API_KEY)
+def generate_image_from_text():
+    payload = {
 
-print(f"Primary model: {MODELS[:0]}")
+    "inputs": prompt,
+
+    "options": {"negative_prompt": "ugly, blurry", "guidance_scale": 7.5}
+
+}
+    last_err = None
+
+print(f"Primary model: {MODELS[0]}")
 print("Type 'quit' to exit\n")
 while True:
-    prompt = input("Enter prompt").strip()
-    if prompt.lower in ["quit","exit","q"]:
+    prompt = input("Enter prompt: ")
+    if prompt.lower() in ["quit","exit","q"]:
         print("Bye")
         break
     if not prompt:
         continue
-
+    user_input = input("Guidance Scale: enter 3-15: ")
+    try:
+        if not user_input.strip():
+            scale = 7.5
+        else:
+            scale = float(user_input)
+    except ValueError:
+        print("That wasn't a number! Using default 7.5")
+        scale = 7.5
     print("Generating...")
     image = None
-
     for model in MODELS:
         try:
-            image = cilent.text_to_image(prompt,model=model)
+            image = cilent.text_to_image(prompt,model=model,
+            guidance_scale=scale,
+            negative_prompt="ugly, blurry, distorted, grainy"
+            )
             break
         except Exception:
             print(f"Executing next...")
@@ -42,3 +61,4 @@ while True:
     else:
         print("Error: All models failed. Check your API ket.\n")
 print("Goodbye!")
+
