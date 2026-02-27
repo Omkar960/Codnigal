@@ -60,6 +60,26 @@ def main():
 
     while True:
         user_input = input("Enter a description for the image (or 'exit' to quit):\n")
+        usersetting = input("Enter 'light mode' for lighter setting or 'dark mode' for higher contrast: ")
+        if usersetting.lower()== "dark mode":
+            def post_process_image(image):
+
+                image = ImageEnhance.Brightness(image).enhance(0.9)
+                image = ImageEnhance.Contrast(image).enhance(1.4)
+                return image.filter(ImageFilter.GaussianBlur(radius=0.5))
+        elif usersetting.lower() == "light mode":
+            def post_process_image(image):
+
+                image = ImageEnhance.Brightness(image).enhance(1.3)
+                image = ImageEnhance.Contrast(image).enhance(1.1)
+                return image.filter(ImageFilter.GaussianBlur(radius=2))
+        else:
+            def post_process_image(image):
+
+                image = ImageEnhance.Brightness(image).enhance(1.2)
+                image = ImageEnhance.Contrast(image).enhance(1.3)
+                return image.filter(ImageFilter.GaussianBlur(radius=2))
+            
         if user_input.lower() == 'exit':
             print("Goodbye!")
             break
@@ -73,13 +93,23 @@ def main():
 
             save_option = input("Do you want to save the processed image? (yes/no): ").strip().lower()
             if save_option == 'yes':
-                file_name = input("Enter a name for the image file (without extension): ").strip()
-                processed_image.save(f"{file_name}.png")
-                print(f"Image saved as {file_name}.png\n")
+                if usersetting.lower() == "light mode":
+                    file_name = input("Enter a name for the image file (without extension): ").strip()
+                    processed_image.save(f"{file_name}/original/prompt/daylight.png")
+                    print(f"Image saved as {file_name}/original/prompt/daylight.png\n")
+                elif usersetting.lower() == "dark mode":
+                     file_name = input("Enter a name for the image file (without extension): ").strip()
+                     processed_image.save(f"{file_name}/original/prompt/night.png")
+                     print(f"Image saved as {file_name}/original/prompt/night.png\n")
+
 
             print("-" * 80 + "\n")
         except Exception as e:
             print(f"An error occurred: {e}\n")
-
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\nProgram stopped by user. Goodbye!")
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {e}")
