@@ -16,21 +16,42 @@ def font(sz = 18):
         except: pass
     return ImageFont.load_default()
 def ask_image():
-    print("\n 🎯 Pick and image (JPEG,PNG,WebP,BMP,TIFF <= 8) from this folder.")
+    print("\n 🎯 Pick an image (JPEG,PNG,WebP,BMP,TIFF <= 8MB) from this folder.")
+    # List available images
+    images = [f for f in os.listdir('.') if os.path.isfile(f) and os.path.splitext(f)[1].lower() in ALLOWED]
+    if images:
+        print("Available images:")
+        for img in images:
+            print(f"  - {img}")
+    else:
+        print("No supported images found in this folder.")
     while True:
-        p = input("Image path").strip().strip("").strip("'")
-        if not p or not os.path.isfile(p): print("⚠️ Not found"); continue
-        if os.path.splitext(p)[1].lower() not in ALLOWED: print("⚠️ Unsupported file type.")
-        if os.path.getsize(p)/(1024*1024) > MAX_MB: print("⚠️ Too big (>8MB)")
-        try: Image.open(p).verify()
-        except: print("⚠️ Corrupted Image"); continue
+        p = input("Image path (or just filename if in folder): ").strip().strip("'")
+        if not p:
+            continue
+        if not os.path.isabs(p):
+            p = os.path.join('.', p)
+        if not os.path.isfile(p):
+            print("⚠️ Not found")
+            continue
+        if os.path.splitext(p)[1].lower() not in ALLOWED:
+            print("⚠️ Unsupported file type.")
+            continue
+        if os.path.getsize(p)/(1024*1024) > MAX_MB:
+            print("⚠️ Too big (>8MB)")
+            continue
+        try:
+            Image.open(p).verify()
+        except:
+            print("⚠️ Corrupted Image")
+            continue
         return p
 def infer(path,img_bytes,tries=8):
     mime,_ = mimetypes.guess_type(path)
     for _ in range(tries):
         if mime and mime.startswith("image/"):
             r = requests.post(API,
-                              headers = {'Authorixation': f"Bearer{HF_API_KEY}","Content-Type": mime},
+                              headers = {'Authorization': f"Bearer {HF_API_KEY}","Content-Type": mime},
                               data=img_bytes,timeout=60)
         else:
             r =requests.post(API,
@@ -38,11 +59,47 @@ def infer(path,img_bytes,tries=8):
                              timeout=60)
         if r.status_code == 200:
             d = r.json()
-            if isinstance(d,dict) and "error" in d: raise
-            RuntimeError(d["error"])
-            if not isinstance(d,list): raise RuntimeError("Bade API response.")
+            if isinstance(d,dict) and "error" in d: raise RuntimeError(d["error"])
+            if not isinstance(d,list): raise RuntimeError("Bad API response.")
             return d
         if r.status_code == 503: time.sleep(2); continue 
         raise RuntimeError(f"API {r.status_code}: {r.text[:300]}")
     raise RuntimeError("Model warm-up timeout.")
+def draw(img,dets,thr=0.5):
+    d = ImageDraw.Draw(img); f = font(18); counts = {}
+    for det in dets[:50]:
+        s = float(det.get("score",0))
+        if s < thr: continue
+        lab = det.get("label","object"); b = det.get("box",{})
+        x1,y1,x2,y2 = (int(b.get(k,0))for k in ("xmin","ymin","xmax","ymax"))
+        if not (x2>0 and y2>0):
+            x,y,w,h = int(b.get("x",0)), int(b.get("y",0)), int(b.get("w",0)),int(b.get("h",0))
+            x1,x2,y1,y2 = x,y,x+w,y+h
+        color = tuple(random.randint(80,255) for _ in range (3))
+        d.rectangle([(x1,y1),(x2,y2)], outline=color,width=4)
+        txt = f"{EMOJI.get(lab.lower(),'⭐️')} {lab} {s*100:.0f}%"
+        bbox = d.textbbox((0,0), txt, font=f)
+        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        d.text((x1, y1 - th if y1 > th else y1), txt, fill=(0,0,0), font=f)
+        counts[lab] = counts.get(lab,0)+1
+    return counts
+def main():
+    path = ask_image()
+    with open(path,"rb") as fh: by = fh.read()
+    try: dets = infer(path,by)
+    except Exception as e: return print("❌",e)
+    img = Image.open(io.BytesIO(by)).convert("RGB")
+    counts = draw(img,dets,thr=0.5)
+    out = f"annotated_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+    img.save(out); print(f"✅ Saved: {out}")
+    if counts:
+        print("🎊 I found: ")
+        for k,v in sorted(counts.items(), key = lambda kv:(-kv[1],kv[0])):
+            print(f" . {EMOJI.get(k.lower(),'⭐️')}{k}: {v}")
+    else:
+        print("🤔 No confident detections-try a clearer or busier!")
+    print("\n ⚠️ Disclaimer: This is an AI model demo."
+          "Detection may not always be accurate or complete."
+          "Use it for fun and learning, not for safety-critical decisions.")
+if __name__ == "__main__": main()
 
