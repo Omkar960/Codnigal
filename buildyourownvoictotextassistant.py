@@ -4,7 +4,7 @@ import sys
 
 import time
 
-import pyaudio
+import pyaudio 
 
 import numpy as np
 
@@ -63,7 +63,7 @@ def saveaudio(data,rate,width,filename="my_audio.wav"):
         wf.setframerate(rate)
         wf.writeframes(data)
     print(f"Audio saved to {filename}")
-def transcribeaudio(data,rate,width,filename="my_transcript.txt"):
+def transcribeaudio(data,rate,width):
     recognizer = sr.Recognizer()
     audio = AudioData(data,rate,width)
     try:
@@ -72,10 +72,6 @@ def transcribeaudio(data,rate,width,filename="my_transcript.txt"):
         text = "Could not understand the audio"
     except sr.RequestError as e:
         text = f"API error: {e}"
-    print("Transcription:", text)
-    with open(filename,"w") as f:
-        f.write()
-    print(f"Transcript saved to {filename}")
 def show_waveform(data,rate):
     samples = np.frombuffer(data,dtype=np.int16)
     t = np.linspace(0,len(samples)/rate,num=len(samples))
