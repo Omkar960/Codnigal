@@ -1,14 +1,14 @@
 import speech_recognition as sr
 import pyttsx3
 from deep_translator import GoogleTranslator
-def speak(text,language="en"):
+def speak(text,lang="en"):
     engine = pyttsx3.init()
     engine.setProperty('rate',150)
     voices = engine.getProperty("voices")
-    if language == "en":
-        engine.setProperty('voice',voices[0].id)
-    else:
-        engine.setProperty('voice',voices[1].id)
+    for voice in voices:
+        if lang in voice.id.lower():
+            engine.setProperty('voice', voice.id)
+            break
     engine.say(text)
     engine.runAndWait()
 def speech_to_text():
@@ -18,7 +18,7 @@ def speech_to_text():
         audio = recognizer.listen(source)
     try:
         print("Recognizing speech")
-        text = recognizer.recognize_google(audio,language="en-US")
+        text = recognizer.recognize_google(audio)
         print(f"You said {text}")
         return text
     except sr.UnknownValueError:
@@ -42,13 +42,13 @@ def displaylangoptions():
     print("8. Punjabi (pa)")
     choice = input("Select language (1-8): ")
     languagedict = {"1":"hi","2":"ta","3":"te","4":"bn","5":"mr","6":"gu","7":"ml","8":"pa"}
-    return languagedict.get(choice,"es")
+    return languagedict.get(choice)
 def main():
     targetlanguage = displaylangoptions()
     originaltext = speech_to_text()
     if originaltext:
-        translatedtext = translate_text(originaltext,target_language=targetlanguage)
-        speak(translatedtext,language="en")
+        translatedtext = translate_text(originaltext,targetlanguage)
+        speak(translatedtext,targetlanguage)
         print("Translation spoken out!")
 if __name__ == "__main__":
     main()
