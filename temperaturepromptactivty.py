@@ -42,7 +42,7 @@ def bonusstream():
     choice = input("\n BONUS: streaming-like output?(y/n)").lower().strip()
     if choice == "y":
         p = input("Enter a prompt: ").strip()
-        out = generateresponse(p,temperature=0.7,max_tokens=512)
+        out = generateresponse(p,temperature=0.5,max_tokens=512)
         print("\n Streaming-like response (not real streaming)")
         pseudostream(out)
 if __name__ == "__main__":
