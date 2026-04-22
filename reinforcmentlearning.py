@@ -29,10 +29,16 @@ def rolebasedactivity():
         return
     teacherprompt = f"You are a teacher. Explain {item} in simple terms"
     expertprompt = f"You are an expert in {category}. Explain {item} in a detailed technical manner."
+    businessprompt = f"As a business leader, explain how {item} can impact your industry"
+    peerprompt = f"Explain {item} in terms a college student would underrstand."
     teacherresponse = generate_response(teacherprompt,temperature=0.3,max_tokens=1024)
     expertresponse = generate_response(expertprompt,temperature=0.3,max_tokens=1024)
+    businessresponse = generate_response(businessprompt,temperature=0.3,max_tokens=1024)
+    peerresponse = generate_response(peerprompt,temperature=0.3,max_tokens=1024)
     print(f"\n----- Teacher's Perspective ----\n{teacherresponse}")
     print(f"\n---- Expert's Perspective ----\n{expertresponse}")
+    print(f"\n---- Business Leader's Persepctive ----\n{businessresponse}")
+    print(f"\n---- Peer Stduent's Perspective ----\n{peerresponse}")
     print("\n Reflection ")
     print("1. How did the AI's response differ between the teacher's and expert's perspectives?")
     print("2. How can role-based prompts help tailor AI responses for different contexts?")
