@@ -1,4 +1,4 @@
-from hf import generateresponse
+from hf import generate_response
 def getessaydetialis():
     print("\n=== AI Writing Assistant===")
     topic = input("What is the topic of your essay").strip()
@@ -12,7 +12,7 @@ def getessaydetialis():
     except ValueError:
         length = "300 words"
     target_audience = input("Target audience (e.g, High school students): ").strip()
-    return {"topic":topic,"essay_type":essay_type,"length":length,"targetaudience":target_audience}
+    return {"topic":topic,"essay_type":essay_type,"length":length,"target_audience":target_audience}
 def generateessaycontent(details):
     try:
         temp = float(input("Enter temperature (0.1 structured ,0.7 creative: )").strip())
@@ -20,7 +20,7 @@ def generateessaycontent(details):
         print("Invalid temeprature. Using 0.3.")
         temp = 0.3
     intro_p = f"Write an introduction for an {details['essay_type']} essay about {details['topic']} on the topic of {details['length']}"
-    intro = generateresponse(intro_p,temperature=temp,max_tokens=1024)
+    intro = generate_response(intro_p,temperature=temp,max_tokens=1024)
     print("\n=== Generated Introduction===")
     print(intro)
     print("\nWould you like the boody wiriiten as a full draft or step-by-step")
@@ -28,16 +28,16 @@ def generateessaycontent(details):
     choice = input("> ").strip()
     if choice == "1":
         body_p = f"Write a full body for an essay on {details['topic']} with the stance of {details['target_audience']}."
-        body = generateresponse(body_p,temperature=temp,max_tokens=1024)
+        body = generate_response(body_p,temperature=temp,max_tokens=1024)
         print("\n=== Generated Full Body===\n")
         print(body)
     else:
         step_p = f"Write step-by-step arguments for an essay on {details['topic']}. Provide evidence and reasoning."
-        body_step = generateresponse(step_p,temperature=temp,max_tokens=1024)
+        body_step = generate_response(step_p,temperature=temp,max_tokens=1024)
         print("\n== Generated Step-By-Step Body ==-\n")
         print(body_step)
     concl_p = f"Write a conclusion for an {details['essay_type']} essay about {details['topic']} with the stance of {details['target_audience']}."
-    concl = generateresponse(concl_p,temperature=temp,max_tokens=1024)
+    concl = generate_response(concl_p,temperature=temp,max_tokens=1024)
     print("\n=== Generate Conclusion ===\n")
     print(concl)
 def feedbackandrefinemnt():
@@ -51,7 +51,7 @@ def feedbackandrefinemnt():
         feedback = input("Provide feedback (tone, structure, etc)").strip()
         print(f"\nThank you for your feedback: {feedback}")
     else:
-        print("\n Thank you! The essat looks good.")
+        print("\n Thank you! The essay looks good.")
 def run_acitivty():
     print("\n Welcome to the AI Writing Assistant!")
     details = getessaydetialis()
