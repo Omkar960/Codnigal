@@ -2,7 +2,11 @@ from groq import generate_response
 
 import io, streamlit as st
 
-SYSTEM_PROMPT = """You are a Math Mastermind. For every math porblem: 1) Show step-by-stpe solution 2) Explain reasoning 3) Give alternate method if possible 4) Verify answer if possible 5) Use proper notation 6) Break complex problem into parts Format Problem -> **Final Answer** -> Concepts used. Be precise and educational."""
+SYSTEM_PROMPT = """You are a Math Wizard built by Aanya always precise, patient, and full of clarity.
+For every math problem:
+1. Show detailed steps
+2. Explain the method
+3. Highlight the final answer"""
 def math_generate(problem:str,level:str,temperature=0.1,max_tokens=1024) -> str:
     prompt = f"{SYSTEM_PROMPT}\n\nMath Problem ({level}): {problem}"
     return generate_response(prompt,temperature=temperature,max_tokens=max_tokens)
@@ -10,11 +14,14 @@ def exporttxt(history):
     txt = "\n\n".join([f"Q{i}: {h['q']}\nA{i}: {h['a']}" for i, h in enumerate(history,1)])
     return io.BytesIO(txt.encode("utf-8"))
 def setupui():
-    st.set_page_config(page_title=" Math Mastermind",layout="centered")
-    st.title("Math Mastermind")
+    st.set_page_config(page_title=" Math Genie",layout="centered")
+    st.title("Math Genie")
     st.write("Solve nay math problem with detalied step-by-step explanation.")
-    with st.expander("Examples"):
-        st.markdown("- Algebra: 'Solve 2X^3 + 5x - 3 = 0'\n""- Calculus: 'Derivative of sin(x^3) + 1n(x)\n""- Geometry: 'Area of triangle (0,0),(3,4)(6,0)'\n""- Probabilty: 'P(sum=7 with two dice)'")
+    with st.expander("My Example Problems"):
+        st.markdown(""" **Probability:** Tossing coins, rolling dice
+        - Example: 'What's the probability of getting heads twice in 3 coin tosses?'
+        **Algebra:** Word problems and equations
+        - Example: 'A number increases by 5 is 12. What's the number?' """)
         st.session_state.setdefault("history",[])
         st.session_state.setdefault("k",0)
         c1,c2 = st.columns([1,2])
@@ -26,7 +33,7 @@ def setupui():
             q = st.text_area("Enter your math problem:", height = 100,placeholder="Example: Solve x^2 + 5x + 6 = 0",key=f"q_{st.session_state.k}")
             a,b = st.columns([3,1])
             solve = a.form_submit_button("Solve",use_container_width=True)
-            level = b.selectbox("Level",["Basic","Intermediate","Advanced"],index = 1)
+            level = b.selectbox("Choose your level",["Beginner","Regular","Challenging"],index = 1)
             if solve:
                 if not q.strip(): st.warning("Enter problem first.")
                 else:
@@ -49,3 +56,4 @@ def setupui():
         st.markdown(html + "</div>",unsafe_allow_html=True)
 if __name__ == "__main__":
     setupui()
+
