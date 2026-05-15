@@ -1,1 +1,1 @@
-HF_API_KEY = "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"
+HF_API_KEY = "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"
