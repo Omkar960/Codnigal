@@ -4,7 +4,7 @@ import re
 import streamlit as st
 from huggingface_hub import InferenceClient
 from PIL import Image
-import Config2
+import config5
 
 MODEL_ID = "stability/stable-diffusion-x1-base-1.0"
 FILTER_API_URL = "https://filters-zeta.vercel.app/api/filter"
@@ -33,7 +33,7 @@ def is_safe(p: str):
             return False, f"Blocked unsafe pattern"
     return True, ""
 
-img_client = InferenceClient(provider="hf-inference", api_key=Config2.HF_API_KEY)
+img_client = InferenceClient(provider="hf-inference", api_key=config5.HF_API_KEY)
 
 def normalize_image(image):
     if isinstance(image, bytes):
