@@ -6,7 +6,7 @@ from huggingface_hub import InferenceClient
 from PIL import Image
 import config5
 
-MODEL_ID = "stability/stable-diffusion-x1-base-1.0"
+MODEL_ID = "stabilityai/stable-diffusion-3-medium-diffusers"
 FILTER_API_URL = "https://filters-zeta.vercel.app/api/filter"
 ENHANCE_SYS = ("Improve prompts for text-to-image. Return ONLY the enhanced prompt. ""Add subject, style, lighting camera angle, background, colours. Keep it safe.")
 NEGATIVE = "nsfw,nude,nudity,naked,erotic,porn,explicit,gore,blood,violence,weapon,hate symbols"
